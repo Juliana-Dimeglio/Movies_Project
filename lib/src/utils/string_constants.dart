@@ -4,4 +4,5 @@ abstract class StringConstants {
       "http://api.themoviedb.org/3/movie/popular?api_key=" +
           apiKey +
           "&language=en-US&page=1";
+  static const String imageUrl = "https://image.tmdb.org/t/p/w185";
 }
