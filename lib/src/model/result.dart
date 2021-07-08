@@ -1,63 +1,66 @@
+import '../utils/numeric_constants.dart';
+import '../utils/string_constants.dart';
+
 class Result {
-  int _voteCount = 0;
-  int _id = 0;
-  late bool _video;
-  String _voteAverage = "";
-  String _title = "";
-  double _popularity = 0;
-  String _posterPath = "";
-  String _originalLanguage = "";
-  String _originalTitle = "";
-  late List<int> _genreIds = [];
-  String? _backdropPath = "";
-  late bool _adult;
-  String _overview = "";
-  String? _releaseDate = "";
+  int voteCount;
+  int id;
+  late bool video;
+  var voteAverage;
+  String title;
+  double popularity;
+  String? posterPath;
+  String originalLanguage;
+  String originalTitle;
+  List<int> genreIds;
+  String? backdropPath;
 
-  Result(result) {
-    _voteCount = result['vote_count'];
-    _id = result['id'];
-    _video = result['video'];
-    _voteAverage = result['vote_average'].toString();
-    _title = result['title'];
-    _popularity = result['popularity'];
-    _posterPath = result['poster_path'];
-    _originalLanguage = result['original_language'];
-    _originalTitle = result['original_title'];
-    for (int i = 0; i < result['genre_ids'].length; i++) {
-      _genreIds.add(result['genre_ids'][i]);
+  bool adult;
+  String overview;
+  String releaseDate;
+
+  Result({
+    this.voteCount = NumericConstants.zeroValue,
+    this.id = NumericConstants.zeroValue,
+    this.video = false,
+    this.voteAverage = NumericConstants.zeroDoubleValue,
+    this.title = StringConstants.emptyString,
+    this.popularity = NumericConstants.zeroDoubleValue,
+    this.posterPath,
+    this.originalLanguage = StringConstants.emptyString,
+    this.originalTitle = StringConstants.emptyString,
+    required this.genreIds,
+    this.backdropPath,
+    this.adult = false,
+    this.overview = StringConstants.emptyString,
+    this.releaseDate = StringConstants.emptyString,
+  });
+
+  factory Result.fromJson(Map<String, dynamic> parsedJson) {
+    var genresJsonList = parsedJson['genre_ids'] as List;
+    List<int> genresList = [];
+    for (int i = 0; i < genresJsonList.length; i++) {
+      genresList.add(genresJsonList[i]);
     }
-    _backdropPath = result['backdrop_path'];
-    _adult = result['adult'];
-    _overview = result['overview'];
-    _releaseDate = result['release_date'];
+
+    return Result(
+      voteCount: parsedJson['vote_count'],
+      id: parsedJson['id'],
+      video: parsedJson['video'],
+      voteAverage: double.tryParse(parsedJson['vote_average'].toString()),
+      title: parsedJson['title'],
+      popularity: parsedJson['popularity'],
+      posterPath: parsedJson['poster_path'] != null
+          ? StringConstants.imageUrl + parsedJson['poster_path']
+          : StringConstants.imageNotFound,
+      originalLanguage: parsedJson['original_language'],
+      originalTitle: parsedJson['original_title'],
+      backdropPath: parsedJson['backdrop_path'] != null
+          ? StringConstants.imageUrl + parsedJson['backdrop_path']
+          : StringConstants.imageNotFound,
+      adult: parsedJson['adult'],
+      overview: parsedJson['overview'],
+      releaseDate: parsedJson['release_date'],
+      genreIds: genresList,
+    );
   }
-
-  String? get releaseDate => _releaseDate;
-
-  String get overview => _overview;
-
-  bool get adult => _adult;
-
-  String? get backdropPath => _backdropPath;
-
-  List<int> get genreIds => _genreIds;
-
-  String get originalTitle => _originalTitle;
-
-  String get originalLanguage => _originalLanguage;
-
-  String get posterPath => _posterPath;
-
-  double get popularity => _popularity;
-
-  String get title => _title;
-
-  String get voteAverage => _voteAverage;
-
-  bool get video => _video;
-
-  int get id => _id;
-
-  int get voteCount => _voteCount;
 }
