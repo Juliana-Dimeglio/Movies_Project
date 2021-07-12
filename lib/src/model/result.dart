@@ -59,7 +59,8 @@ class Result {
           : StringConstants.imageNotFound,
       adult: parsedJson['adult'],
       overview: parsedJson['overview'],
-      releaseDate: parsedJson['release_date'],
+      releaseDate:
+          parsedJson['release_date'] ?? StringConstants.releaseDateNull,
       genreIds: genresList,
     );
   }

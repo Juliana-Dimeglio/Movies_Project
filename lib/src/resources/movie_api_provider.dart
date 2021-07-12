@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart';
+import '../utils/numeric_constants.dart';
 import '../utils/string_constants.dart';
 import '../model/movie.dart';
 
@@ -10,11 +11,24 @@ class MovieApiProvider {
   Future<Movie> fetchMovieList() async {
     final response = await client.get(Uri.parse(StringConstants.uriPath));
 
-    if (response.statusCode == 200) {
-      // If the call to the server was successful, parse the JSON
+    if (response.statusCode == NumericConstants.statusResponse) {
       return Movie.fromJson(json.decode(response.body));
     } else {
-      // If that call was not successful, throw an error.
+      throw Exception('Failed to load post');
+    }
+  }
+
+  Future<Movie> fetchMoviesBySearch(String query) async {
+    final response = await client.get(
+      Uri.parse(
+        StringConstants.uriPathSearch +
+            query +
+            StringConstants.uriPathSearchQuery,
+      ),
+    );
+    if (response.statusCode == NumericConstants.statusResponse) {
+      return Movie.fromJson(json.decode(response.body));
+    } else {
       throw Exception('Failed to load post');
     }
   }
