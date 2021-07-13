@@ -16,4 +16,7 @@ abstract class NumericConstants {
   static const double textButtonSize = 30;
   static const double zeroDoubleValue = 0.0;
   static const int zeroValue = 0;
+  static const double searchBarHeight = 150;
+  static const double statusResponse = 200;
+  static const double opacityColorInputSearch = 0.1;
 }

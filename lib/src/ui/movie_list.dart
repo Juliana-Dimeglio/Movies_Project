@@ -8,6 +8,12 @@ import '../utils/string_constants.dart';
 import '../bloc/movies_bloc.dart';
 
 class MovieList extends StatefulWidget {
+  final MoviesBloc movieBloc;
+
+  MovieList({
+    required this.movieBloc,
+  });
+
   @override
   State<StatefulWidget> createState() {
     return _MovieListState();
@@ -15,17 +21,15 @@ class MovieList extends StatefulWidget {
 }
 
 class _MovieListState extends State<MovieList> {
-  final movieBloc = MoviesBloc();
-
   @override
   void initState() {
     super.initState();
-    movieBloc.fetchAllMovies();
+    widget.movieBloc.fetchAllMovies();
   }
 
   @override
   void dispose() {
-    movieBloc.dispose();
+    widget.movieBloc.dispose();
     super.dispose();
   }
 
@@ -33,8 +37,30 @@ class _MovieListState extends State<MovieList> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.black45,
         title: Text(
           StringConstants.mainMovieTitle,
+        ),
+        bottom: PreferredSize(
+          preferredSize: Size(
+            NumericConstants.searchBarHeight,
+            AppBar().preferredSize.height,
+          ),
+          child: TextField(
+            decoration: InputDecoration(
+              fillColor: Colors.grey.withOpacity(
+                NumericConstants.opacityColorInputSearch,
+              ),
+              filled: true,
+              suffixIcon: Icon(
+                Icons.search,
+              ),
+              hintText: StringConstants.labelSearchBar,
+            ),
+            onSubmitted: (query) {
+              widget.movieBloc.fetchMoviesBySearch(query);
+            },
+          ),
         ),
       ),
       body: Container(
@@ -42,7 +68,7 @@ class _MovieListState extends State<MovieList> {
           gradient: backgroundColor,
         ),
         child: StreamBuilder(
-          stream: movieBloc.allMovies,
+          stream: widget.movieBloc.allMovies,
           builder: (context, AsyncSnapshot<Movie> snapshot) {
             if (snapshot.hasData) {
               return buildList(snapshot.data!);
