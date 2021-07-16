@@ -1,3 +1,4 @@
+import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'movie_image.dart';
 import 'movie_detail.dart';
@@ -63,54 +64,51 @@ class _MovieListState extends State<MovieList> {
           ),
         ),
       ),
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: backgroundColor,
-        ),
-        child: StreamBuilder(
-          stream: widget.movieBloc.allMovies,
-          builder: (context, AsyncSnapshot<Movie> snapshot) {
-            if (snapshot.hasData) {
-              return buildList(snapshot.data!);
-            } else if (snapshot.hasError) {
-              return Text(
-                snapshot.error.toString(),
-              );
-            }
-            return Center(
-              child: CircularProgressIndicator(),
+      body: StreamBuilder<Movie>(
+        stream: widget.movieBloc.allMovies,
+        builder: (context, AsyncSnapshot<Movie> snapshot) {
+          if (snapshot.hasData) {
+            return buildList(snapshot.data!);
+          } else if (snapshot.hasError) {
+            return Text(
+              snapshot.error.toString(),
             );
-          },
-        ),
+          }
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        },
       ),
     );
   }
 
   Widget buildList(Movie data) {
     return GridView.builder(
-        itemCount: data.results.length,
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: NumericConstants.crossAxisCount,
-        ),
-        itemBuilder: (BuildContext context, int index) {
-          return InkWell(
+      itemCount: data.results.length,
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: NumericConstants.crossAxisCount,
+      ),
+      itemBuilder: (BuildContext context, int index) {
+        return OpenContainer(
+          closedColor: Colors.black,
+          transitionType: ContainerTransitionType.fadeThrough,
+          transitionDuration: Duration(
+            seconds: NumericConstants.animationDuration,
+          ),
+          openBuilder: (context, _) => MovieDetailScreen(
+            overview: data.results[index].overview,
+            originalLanguage: StringConstants.languageText +
+                data.results[index].originalLanguage,
+            posterPath: data.results[index].posterPath!,
+            releaseDate: StringConstants.releaseDateText +
+                data.results[index].releaseDate,
+            originalTitle: data.results[index].originalTitle,
+            voteAverage: StringConstants.ratingText +
+                data.results[index].voteAverage.toString(),
+          ),
+          closedBuilder: (context, VoidCallback openContainer) => InkWell(
             onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => MovieDetailScreen(
-                    voteAverage: StringConstants.ratingText +
-                        data.results[index].voteAverage.toString(),
-                    posterPath: data.results[index].posterPath!,
-                    releaseDate: StringConstants.releaseDateText +
-                        data.results[index].releaseDate,
-                    originalTitle: data.results[index].originalTitle,
-                    originalLanguage: StringConstants.languageText +
-                        data.results[index].originalLanguage,
-                    overview: data.results[index].overview,
-                  ),
-                ),
-              );
+              openContainer();
             },
             child: GridTile(
               child: Container(
@@ -122,7 +120,9 @@ class _MovieListState extends State<MovieList> {
                 ),
               ),
             ),
-          );
-        });
+          ),
+        );
+      },
+    );
   }
 }
