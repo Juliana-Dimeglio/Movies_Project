@@ -1,5 +1,5 @@
 abstract class NumericConstants {
-  static const double marginImages = 5;
+  static const double marginImages = 7;
   static const int crossAxisCount = 2;
   static const double marginPoster = 10;
   static const double heightPosterDetail = 400;
@@ -19,4 +19,5 @@ abstract class NumericConstants {
   static const double searchBarHeight = 150;
   static const double statusResponse = 200;
   static const double opacityColorInputSearch = 0.1;
+  static const int animationDuration = 2;
 }
