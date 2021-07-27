@@ -5,9 +5,12 @@ import '../model/movie.dart';
 import '../resources/movie_repository.dart';
 
 class MoviesBloc {
-  final _movieRepository = MovieRepository();
+  late MovieRepository _movieRepository;
   final _moviesFetcher = StreamController<Movie>.broadcast();
   final _moviesSearchFetcher = StreamController<Movie>.broadcast();
+
+  MoviesBloc([MovieRepository? movieRepository])
+      : _movieRepository = movieRepository ?? MovieRepository();
 
   Stream<Movie> get allMovies => _moviesFetcher.stream;
 
