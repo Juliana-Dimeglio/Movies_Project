@@ -1,8 +1,7 @@
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'movie_image.dart';
-import 'movie_detail.dart';
-import '../utils/styles.dart';
+import 'movie_detail_screen.dart';
 import '../utils/numeric_constants.dart';
 import '../model/movie.dart';
 import '../utils/string_constants.dart';
