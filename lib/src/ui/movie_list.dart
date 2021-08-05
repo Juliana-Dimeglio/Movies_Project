@@ -1,6 +1,6 @@
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
-import 'movie_image.dart';
+import 'package:movie_widgets/movie_widgets.dart';
 import 'movie_detail_screen.dart';
 import '../utils/numeric_constants.dart';
 import '../model/movie.dart';
@@ -115,7 +115,7 @@ class _MovieListState extends State<MovieList> {
                   vertical: NumericConstants.marginImages,
                 ),
                 child: MovieImage(
-                  posterPath: data.results[index].posterPath!,
+                  imageUrl: data.results[index].posterPath!,
                 ),
               ),
             ),

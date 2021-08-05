@@ -333,6 +333,15 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "5.0.12"
+  movie_widgets:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: master
+      resolved-ref: "42d1f53bec44a259acb657aaeedbc07f3fed1a59"
+      url: "https://github.com/Juliana-Dimeglio/movie_widgets"
+    source: git
+    version: "0.0.1"
   network_image_mock:
     dependency: "direct main"
     description:
