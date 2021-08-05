@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:movie_project/src/ui/movie_detail_screen.dart';
-import 'package:movie_project/src/ui/movie_image.dart';
+import 'package:movie_widgets/movie_widgets.dart';
 import 'package:network_image_mock/network_image_mock.dart';
 
 void main() {
